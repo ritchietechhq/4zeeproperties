@@ -1,113 +1,137 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { User, Home, ChevronRight } from "lucide-react";
+import { User, Home, ChevronRight, Building2 } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function AuthRoleSelect() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <div className="min-h-screen flex flex-col">
-        {/* Minimal Header */}
-        <header className="flex items-center justify-between px-6 py-6 md:px-12 lg:px-20">
+    <div className="min-h-screen bg-muted/40 flex flex-col">
+      {/* Header */}
+      <header className="px-6 py-6 md:px-12 lg:px-20 border-b bg-background/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-              <Home className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+              <Building2 className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold tracking-tight">4zeeproperties</span>
+            <span className="text-xl font-bold tracking-tight text-foreground">4zeeproperties</span>
           </div>
-          <a
-            href="/auth/login"
-            className="text-sm text-blue-600 hover:text-blue-700 transition-colors duration-300 border border-blue-200 hover:border-blue-300 hover:bg-blue-50 px-4 py-2 rounded-full"
+          <Button 
+            variant="ghost" 
+            onClick={() => router.push("/auth/login")}
+            className="flex items-center gap-2"
           >
             Sign in
-          </a>
-        </header>
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </header>
 
-        {/* Main Content */}
-        <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:py-20">
-          <div className="w-full max-w-5xl">
-            {/* Heading */}
-            <div className="text-center mb-20">
-              <p className="text-blue-600 text-sm font-medium tracking-widest uppercase mb-4">
-                Welcome to 4zeeproperties
-              </p>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-balance text-slate-900">
-                Who are you?
-              </h1>
-              <p className="text-lg md:text-xl text-slate-500 max-w-lg mx-auto leading-relaxed">
-                Choose your path and unlock a personalized experience tailored just for you.
-              </p>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 md:py-20 animate-in fade-in duration-500">
+        <div className="w-full max-w-5xl">
+          {/* Heading */}
+          <div className="text-center mb-16 space-y-4">
+            <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4">
+              Welcome to 4zeeproperties
             </div>
-
-            {/* Selection Cards */}
-            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-              {/* Client Option */}
-              <button
-                onClick={() => router.push("/auth/clients/signup")}
-                className="group relative flex flex-col p-8 md:p-10 rounded-3xl text-left overflow-hidden transition-all duration-300 hover:scale-[1.02] bg-slate-50 border border-slate-200 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-100"
-              >
-                <div className="relative z-10">
-                  <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                    <User className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
-
-                  <h2 className="text-2xl md:text-3xl font-bold mb-3 text-slate-900">I'm a Client</h2>
-                  <p className="text-slate-500 leading-relaxed mb-10 text-base md:text-lg">
-                    Find your dream home, browse listings, and connect with top agents in your area.
-                  </p>
-
-                  <div className="flex items-center gap-2 text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
-                    <span>Get started</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Realtor Option */}
-              <button
-                onClick={() => router.push("/auth/realtor/signup")}
-                className="group relative flex flex-col p-8 md:p-10 rounded-3xl text-left overflow-hidden transition-all duration-300 hover:scale-[1.02] bg-slate-50 border border-slate-200 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-100"
-              >
-                <div className="relative z-10">
-                  <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
-                    <Home className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
-
-                  <h2 className="text-2xl md:text-3xl font-bold mb-3 text-slate-900">I'm a Realtor</h2>
-                  <p className="text-slate-500 leading-relaxed mb-10 text-base md:text-lg">
-                    List properties, manage leads, and grow your real estate business with powerful tools.
-                  </p>
-
-                  <div className="flex items-center gap-2 text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
-                    <span>Join as Pro</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </div>
-                </div>
-              </button>
-            </div>
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+              Choose your journey
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Select your role to access a personalized dashboard tailored to your real estate needs.
+            </p>
           </div>
-        </main>
 
-        {/* Footer */}
-        <footer className="px-6 py-8 md:px-12 lg:px-20">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-            <p>© 2026 HomeBase. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-blue-600 transition-colors duration-300">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-blue-600 transition-colors duration-300">
-                Terms
-              </a>
-              <a href="#" className="hover:text-blue-600 transition-colors duration-300">
-                Contact
-              </a>
-            </div>
+          {/* Selection Cards */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Client Option */}
+            <Card 
+              className="group cursor-pointer border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 bg-card relative overflow-hidden"
+              onClick={() => router.push("/auth/clients/signup")}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader>
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <User className="w-7 h-7 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">I am a Client</CardTitle>
+                <CardDescription className="text-base text-muted-foreground mt-2">
+                  Find your dream home, browse exclusive listings, and connect with top-rated agents.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Browse 1000+ properties
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Save your favorites
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                 <Button className="w-full group-hover:bg-primary/90">
+                    Get Started
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                 </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Realtor Option */}
+            <Card 
+              className="group cursor-pointer border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 bg-card relative overflow-hidden"
+              onClick={() => router.push("/auth/realtor/signup")}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader>
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Home className="w-7 h-7 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">I am a Realtor</CardTitle>
+                <CardDescription className="text-base text-muted-foreground mt-2">
+                  List properties, manage leads, and grow your real estate business with our pro tools.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Post unlimited listings
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Access analytics dashboard
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                 <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:text-primary">
+                    Join as Pro
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                 </Button>
+              </CardFooter>
+            </Card>
           </div>
-        </footer>
-      </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-8 border-t bg-background">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <p>© 2026 4zeeproperties. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-primary transition-colors">Privacy</a>
+            <a href="#" className="hover:text-primary transition-colors">Terms</a>
+            <a href="#" className="hover:text-primary transition-colors">Contact</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
