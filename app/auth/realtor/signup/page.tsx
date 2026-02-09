@@ -70,26 +70,11 @@ export default function RealtorSignup() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                <p className="text-destructive text-sm text-center font-medium">{error}</p>
+              <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
+                <p className="text-destructive text-sm font-medium">{error}</p>
               </div>
             )}
-
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="name"
-                  required
-                  type="text"
-                  placeholder="e.g. Sarah Jenkins"
-                  className="pl-10 bg-background/50"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                />
-              </div>
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
@@ -108,13 +93,14 @@ export default function RealtorSignup() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Password (min. 8 characters)</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
                   required
                   type="password"
+                  minLength={8}
                   className="pl-10 bg-background/50"
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -123,18 +109,32 @@ export default function RealtorSignup() {
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="referral">Referral Code (Optional)</Label>
+                <Label htmlFor="referralCode">Referral Code (Optional)</Label>
                 <div className="relative">
                     <Ticket className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                        id="referral"
+                        id="referralCode"
                         type="text"
                         placeholder="REF-12345"
                         className="pl-10 bg-background/50"
-                        value={form.referral}
-                        onChange={(e) => setForm({ ...form, referral: e.target.value })}
+                        value={form.referralCode}
+                        onChange={(e) => setForm({ ...form, referralCode: e.target.value })}
                     />
                 </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="dob">Date of Birth (Optional)</Label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="dob"
+                  type="date"
+                  className="pl-10 bg-background/50"
+                  value={form.dob}
+                  onChange={(e) => setForm({ ...form, dob: e.target.value })}
+                />
+              </div>
             </div>
 
             <Button className="w-full" type="submit" disabled={loading}>

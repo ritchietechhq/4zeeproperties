@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Lock, Mail, Building2, AlertCircle } from "lucide-react";
+import { Lock, Mail, Building2, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "true";
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -66,6 +76,15 @@ export default function LoginPage() {
         <Card className="bg-white/80 backdrop-blur-md border-muted/60 shadow-xl">
             <CardContent className="pt-6">
             <form onSubmit={handleLogin} className="space-y-4">
+                {justRegistered && (
+                  <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
+                    <p className="text-green-700 text-sm font-medium">
+                      Account created successfully! Sign in to continue.
+                    </p>
+                  </div>
+                )}
+
                 {error && (
                   <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
                     <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
