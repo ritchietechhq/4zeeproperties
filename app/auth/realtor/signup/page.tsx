@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, Briefcase, Ticket } from "lucide-react";
+import { Mail, Lock, Briefcase, Ticket, AlertCircle, Calendar } from "lucide-react";
 import { api } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,10 +14,10 @@ export default function RealtorSignup() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
-    referral: "",
+    referralCode: "",
+    dob: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -29,15 +29,21 @@ export default function RealtorSignup() {
     setError("");
 
     try {
-      const response = await api.realtorSignup(form);
-      if (response?.success) {
-        router.push("/auth/realtor/login");
+      const res = await api.register({
+        email: form.email,
+        password: form.password,
+        role: "REALTOR",
+        referralCode: form.referralCode || undefined,
+        dob: form.dob || undefined,
+      });
+
+      if (res.success) {
+        router.push("/auth/login?registered=true");
       } else {
-        setError(response?.message || "Signup failed. Try again.");
+        setError(res.error ?? "Registration failed. Try again.");
       }
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
+    } catch {
+      setError("Network error. Please check your connection.");
     } finally {
       setLoading(false);
     }

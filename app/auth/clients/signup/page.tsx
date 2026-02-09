@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, User, Building2 } from "lucide-react";
+import { Mail, Lock, User, Building2, AlertCircle, Calendar } from "lucide-react";
 import { api } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,9 +14,9 @@ export default function ClientSignupPage() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
+    dob: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -28,16 +28,20 @@ export default function ClientSignupPage() {
     setError("");
 
     try {
-      const response = await api.clientSignup(form);
-      if (response?.success) {
-        // Redirect to Client Login
-        router.push("/auth/clients/login");
+      const res = await api.register({
+        email: form.email,
+        password: form.password,
+        role: "CLIENT",
+        dob: form.dob || undefined,
+      });
+
+      if (res.success) {
+        router.push("/auth/login?registered=true");
       } else {
-        setError(response?.message || "Signup failed. Please try again.");
+        setError(res.error ?? "Registration failed. Please try again.");
       }
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong. Please try again.");
+    } catch {
+      setError("Network error. Please check your connection.");
     } finally {
       setLoading(false);
     }
@@ -45,7 +49,7 @@ export default function ClientSignupPage() {
 
   return (
     <div className="min-h-screen bg-muted/40 flex items-center justify-center px-4 py-12 relative overflow-hidden">
-         {/* Background Pattern */}
+        {/* Background Pattern */}
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       <Card className="w-full max-w-md bg-white/80 backdrop-blur-md shadow-xl border border-muted/60 z-10">
@@ -64,27 +68,11 @@ export default function ClientSignupPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                <p className="text-destructive text-sm text-center font-medium">{error}</p>
+              <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
+                <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
+                <p className="text-destructive text-sm font-medium">{error}</p>
               </div>
             )}
-
-            {/* Full Name */}
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="name"
-                  required
-                  type="text"
-                  value={form.name}
-                  placeholder="John Doe"
-                  className="pl-10 bg-background/50"
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                />
-              </div>
-            </div>
 
             {/* Email Address */}
             <div className="space-y-2">
@@ -97,7 +85,7 @@ export default function ClientSignupPage() {
                   type="email"
                   value={form.email}
                   placeholder="name@example.com"
-                   className="pl-10 bg-background/50"
+                  className="pl-10 bg-background/50"
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
@@ -112,8 +100,25 @@ export default function ClientSignupPage() {
                   id="password"
                   required
                   type="password"
-                   className="pl-10 bg-background/50"
+                  placeholder="Min. 8 characters"
+                  className="pl-10 bg-background/50"
+                  minLength={8}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Date of Birth (optional) */}
+            <div className="space-y-2">
+              <Label htmlFor="dob">Date of Birth <span className="text-muted-foreground text-xs">(optional)</span></Label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="dob"
+                  type="date"
+                  className="pl-10 bg-background/50"
+                  value={form.dob}
+                  onChange={(e) => setForm({ ...form, dob: e.target.value })}
                 />
               </div>
             </div>

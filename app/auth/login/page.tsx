@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Role } from "@/app/types/user";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Lock, Mail, Building2 } from "lucide-react";
+import { Lock, Mail, Building2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -18,40 +17,33 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
-    // Simple logic to detect role from email for demo purposes
-    let role: Role = "CLIENT";
-    if (email.includes("admin")) role = "ADMIN";
-    if (email.includes("realtor")) role = "REALTOR";
+    const result = await login({ email, password });
 
-    await performLogin(role);
-  };
-
-  const performLogin = async (role: Role) => {
-    try {
-      setLoading(true);
-      await login(role);
-      
-      // Redirect based on role
-      switch (role) {
-        case "ADMIN":
-          router.push("/admin/dashboard");
-          break;
-        case "REALTOR":
-          router.push("/realtor/dashboard");
-          break;
-        case "CLIENT":
-          router.push("/client/dashboard");
-          break;
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
+    if (!result.success) {
+      setError(result.error ?? "Invalid email or password");
       setLoading(false);
+      return;
+    }
+
+    // Redirect based on role returned from the API
+    switch (result.role) {
+      case "ADMIN":
+        router.push("/admin/dashboard");
+        break;
+      case "REALTOR":
+        router.push("/realtor/dashboard");
+        break;
+      case "CLIENT":
+      default:
+        router.push("/client/dashboard");
+        break;
     }
   };
 
@@ -74,6 +66,13 @@ export default function LoginPage() {
         <Card className="bg-white/80 backdrop-blur-md border-muted/60 shadow-xl">
             <CardContent className="pt-6">
             <form onSubmit={handleLogin} className="space-y-4">
+                {error && (
+                  <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
+                    <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
+                    <p className="text-destructive text-sm font-medium">{error}</p>
+                  </div>
+                )}
+
                 <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -104,10 +103,12 @@ export default function LoginPage() {
                     <Input
                     id="password"
                     type="password"
+                    placeholder="Min. 8 characters"
                     className="pl-10 bg-background/50"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    minLength={8}
                     />
                 </div>
                 </div>
