@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Mail, Lock, User } from "lucide-react";
 import { api } from "@/lib/api";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export default function ClientSignupPage() {
   const router = useRouter();
@@ -27,7 +28,8 @@ export default function ClientSignupPage() {
     try {
       const response = await api.clientSignup(form);
       if (response?.success) {
-        router.push("/auth/client/login");
+        // Redirect to Client Login
+        router.push("/auth/clients/login");
       } else {
         setError(response?.message || "Signup failed. Please try again.");
       }
@@ -40,112 +42,111 @@ export default function ClientSignupPage() {
   };
 
   return (
-    <div className="min-h-screen  flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Form Card */}
-        <div className=" p-8 md:p-10  ">
+    <div className="min-h-screen bg-muted/40 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <div className="p-8 md:p-10">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">Sign Up</h1>
-            <p className="text-slate-500 text-sm">
+            <h1 className="text-2xl font-bold text-foreground mb-2">Sign Up</h1>
+            <p className="text-muted-foreground text-sm">
               Create your account to access your portal.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-100 rounded-xl">
-                <p className="text-red-600 text-sm text-center font-medium">{error}</p>
+              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                <p className="text-destructive text-sm text-center font-medium">{error}</p>
               </div>
             )}
 
             {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Full Name
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
               <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User size={18} className="text-slate-400" />
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User size={16} className="text-muted-foreground" />
                 </span>
-                <input
+                <Input
+                  id="name"
                   required
                   type="text"
                   value={form.name}
                   placeholder="John Doe"
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                  className="pl-9"
                 />
               </div>
             </div>
 
             {/* Email Address */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Email Address
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
               <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail size={18} className="text-slate-400" />
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail size={16} className="text-muted-foreground" />
                 </span>
-                <input
+                <Input
+                  id="email"
                   required
                   type="email"
                   value={form.email}
                   placeholder="name@example.com"
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                  className="pl-9"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Password
-              </label>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock size={18} className="text-slate-400" />
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock size={16} className="text-muted-foreground" />
                 </span>
-                <input
+                <Input
+                  id="password"
                   required
                   type="password"
                   value={form.password}
                   placeholder="Create a strong password"
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                  className="pl-9"
                 />
               </div>
             </div>
 
             {/* Submit Button */}
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-900 hover:bg-blue-700 text-white font-semibold py-3.5 px-6 rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 group shadow-lg shadow-blue-600/20"
+              className="w-full"
+              size="lg"
             >
               <span>{loading ? "Creating Account..." : "Sign Up"}</span>
-              {!loading && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
-            </button>
+              {!loading && <ArrowRight size={16} className="ml-2" />}
+            </Button>
           </form>
 
           {/* Sign In Link */}
-          <p className="text-center text-slate-500 text-sm mt-6">
+          <p className="text-center text-muted-foreground text-sm mt-6">
             Already have an account?{" "}
-            <a href="/auth/clients/login" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+            <a href="/auth/clients/login" className="text-primary font-semibold hover:underline">
               Sign In
             </a>
           </p>
         </div>
 
         {/* Footer */}
-        <p className="text-center text-slate-400 text-xs mt-6">
-          By signing up, you agree to our{" "}
-          <a href="#" className="text-blue-600 hover:underline">Terms</a>
-          {" "}and{" "}
-          <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
-        </p>
+        <div className="bg-slate-50 p-4 text-center border-t border-slate-100">
+          <p className="text-muted-foreground text-xs">
+            By signing up, you agree to our{" "}
+            <a href="#" className="text-primary hover:underline">Terms</a>
+            {" "}and{" "}
+            <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+          </p>
+        </div>
       </div>
     </div>
   );
