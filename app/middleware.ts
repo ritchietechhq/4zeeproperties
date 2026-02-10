@@ -1,26 +1,38 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")
+export default function middleware(req: NextRequest) {
+  const token = req.cookies.get("token")?.value
+  const role = req.cookies.get("auth-role")?.value?.toUpperCase()
   const { pathname } = req.nextUrl
 
-  // Define public paths that don't require authentication
+  // Public paths – no auth required
   if (
     pathname.startsWith("/auth") ||
+    pathname === "/" ||
     pathname.includes(".") || // static files
     pathname.startsWith("/api")
   ) {
     return NextResponse.next()
   }
 
-  // Redirect to login if no token
+  // No token → redirect to login
   if (!token) {
-    // If accessing root, maybe redirect to login or dashboard depending on preference, but here login
     return NextResponse.redirect(new URL("/auth/login", req.url))
   }
-  
-  return NextResponse.next();
+
+  // Role-based route protection
+  if (pathname.startsWith("/admin") && role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/auth/login", req.url))
+  }
+  if (pathname.startsWith("/realtor") && role !== "REALTOR" && role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/auth/login", req.url))
+  }
+  if (pathname.startsWith("/client") && role !== "CLIENT" && role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/auth/login", req.url))
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {

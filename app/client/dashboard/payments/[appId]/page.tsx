@@ -15,9 +15,11 @@ export default function PaymentPage() {
   
   const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'success'>('pending');
 
+  const appIdStr = Array.isArray(appId) ? appId[0] : appId;
+
   // Mock Invoice Data
   const invoice = {
-    id: `INV-${appId?.slice(0, 6).toUpperCase()}`,
+    id: `INV-${appIdStr?.slice(0, 6).toUpperCase()}`,
     rent: 12000,
     deposit: 24000,
     fees: 1500,
