@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/app/utils/constant";
 import logo from "@/public/logo.png";
-import hero from "@/public/hero.png";
+import hero from "@/public/hero.jpg";
 
 const STEPS = [
   {
@@ -51,18 +51,18 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mt-4 flex h-14 items-center justify-between rounded-2xl bg-white/70 backdrop-blur-xl border border-gray-200/60 px-5 shadow-sm">
             <Link href="/" className="flex items-center gap-2 font-bold text-lg text-primary">
-              <Image src={logo} alt="4Zee Properties Logo" className="h-10 w-auto" />
+              <Image src={logo} alt="4Zee Properties Logo" className="h-8 w-auto" />
             </Link>
             <div className="flex items-center gap-3">
               <Link href="/auth/login">
-                <Button variant="ghost" size="sm" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                <Button  size="sm" className="text-sm font-medium text-gray-100 hover:bg-purple-700">
                   Log in
                 </Button>
               </Link>
               <Link href="/auth">
-                <Button size="sm" className="text-sm font-semibold rounded-xl px-5">
+                {/* <Button size="sm" className="text-sm font-semibold rounded-xl px-5">
                   Get Started
-                </Button>
+                </Button> */}
               </Link>
             </div>
           </div>
@@ -70,31 +70,25 @@ export default function LandingPage() {
       </header>
 
       {/* ─── HERO ─── */}
-      <section className="relative text-center isolate pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden ">
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src={hero}
-            alt="Hero background"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0" />
-        </div>
+      <section className="relative text-center isolate pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-purple-50 via-white to-white" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-96 h-96 rounded-full bg-gradient-to-br from-purple-700/30 via-purple-300/20 to-transparent blur-3xl opacity-60" />
+        <div className="absolute -bottom-40 right-0 -z-10 w-80 h-80 rounded-full bg-gradient-to-tl from-purple-200/20 to-transparent blur-3xl opacity-40" />
+        
         {/* Subtle grid */}
-        <div className="absolute inset-0 -z-10 opacity-[0.03] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-size:40px_40px" />
+        <div className="absolute inset-0 -z-10 opacity-[0.02] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:40px_40px]" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center">
         {/* Center – Copy */}
         <div className="space-y-8 max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary mx-auto">
+          <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-1.5 text-sm font-semibold text-purple-600 mx-auto border border-purple-200/50">
             <Sparkles className="h-3.5 w-3.5" />
             Nigeria&apos;s Trusted Property Platform
-            </div>
+          </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
-            Real Estate,{" "}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-700">
+            Real Estate, Simplified
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
@@ -105,63 +99,22 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth">
-          <Button size="lg" className="h-13 px-8 text-base font-semibold rounded-xl gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
-            Start For Free
+          <Button size="lg" className="h-13 px-8 text-base font-semibold rounded-xl gap-2 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 transition-shadow bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+            Get Started
             <ArrowRight className="h-4 w-4" />
           </Button>
             </Link>
-            <Link href="/properties">
+            {/* <Link href="/properties">
           <Button
             size="lg"
             variant="outline"
-            className="h-13 px-8 text-base font-semibold rounded-xl gap-2 border-gray-300 hover:border-gray-400"
+            className="h-13 px-8 text-base font-semibold rounded-xl gap-2 border-gray-300 hover:border-purple-300 hover:bg-purple-50/50"
           >
             Explore Properties
           </Button>
-            </Link>
-          </div>
-
-          {/* Social proof mini */}
-          <div className="flex items-center gap-4 pt-2 justify-center">
-            <div className="flex -space-x-2.5">
-          {["AJ", "CN", "EO", "RK"].map((initials, i) => (
-            <div
-              key={i}
-              className="h-9 w-9 rounded-full border-2 border-white bg-linear-to-br from-primary to-blue-400 flex items-center justify-center text-[11px] font-bold text-white shadow-sm"
-            >
-              {initials}
-            </div>
-          ))}
-            </div>
-            <div className="text-sm text-gray-600">
-          <span className="font-semibold text-gray-900">1,200+</span> happy
-          clients this year
-            </div>
-          </div>
+            </Link> */}
+          </div>     
         </div>
-          </div>
-        </div>
-      </section>
-
-{/* ─── TRUST STRIP ─── */}
-      <section className="py-10 border-y border-gray-100 bg-gray-50/50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "500+", label: "Properties Listed" },
-              { value: "1,200+", label: "Happy Clients" },
-              { value: "120+", label: "Active Realtors" },
-              { value: "₦2.5B+", label: "In Transactions" },
-            ].map((stat, i) => (
-              <div key={i} className="space-y-1">
-                <p className="text-2xl md:text-3xl font-extrabold text-gray-900">
-                  {stat.value}
-                </p>
-                <p className="text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -292,7 +245,7 @@ export default function LandingPage() {
             </div>
 
             {/* Company */}
-            <div className="space-y-4">
+            {/* <div className="space-y-4">
               <p className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
                 Company
               </p>
@@ -309,7 +262,7 @@ export default function LandingPage() {
                   )
                 )}
               </nav>
-            </div>
+            </div> */}
 
             {/* Contact */}
             <div className="space-y-4">

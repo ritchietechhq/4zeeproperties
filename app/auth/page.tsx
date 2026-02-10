@@ -1,9 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { User, Home, ChevronRight, Building2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import logo from "@/public/logo.png";
 
 export default function AuthRoleSelect() {
   const router = useRouter();
@@ -14,22 +17,25 @@ export default function AuthRoleSelect() {
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       {/* Header */}
-      <header className="px-6 py-6 border-b bg-background/80 backdrop-blur-md fixed top-0 w-full z-50">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-              <Building2 className="w-5 h-5 text-primary-foreground" />
+      <header className="fixed top-0 inset-x-0 z-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mt-4 flex h-14 items-center justify-between rounded-2xl bg-white/70 backdrop-blur-xl border border-gray-200/60 px-5 shadow-sm">
+            <Link href="/" className="flex items-center gap-2 font-bold text-lg text-primary">
+              <Image src={logo} alt="4Zee Properties Logo" className="h-8 w-auto" />
+            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/auth/login">
+                <Button  size="sm" className="text-sm font-medium text-gray-100 hover:bg-purple-700">
+                  Log in
+                </Button>
+              </Link>
+              <Link href="/auth">
+                {/* <Button size="sm" className="text-sm font-semibold rounded-xl px-5">
+                  Get Started
+                </Button> */}
+              </Link>
             </div>
-            <span className="text-xl font-bold tracking-tight text-foreground">4zeeproperties</span>
           </div>
-          <Button 
-            variant="ghost" 
-            onClick={() => router.push("/auth/login")}
-            className="flex items-center gap-2"
-          >
-            Sign in
-            <ChevronRight className="w-4 h-4" />
-          </Button>
         </div>
       </header>
 
@@ -79,7 +85,7 @@ export default function AuthRoleSelect() {
                 </ul>
               </CardContent>
               <CardFooter>
-                 <Button className="w-full group-hover:bg-primary/90">
+                 <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                     Get Started
                     <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                  </Button>
@@ -114,7 +120,7 @@ export default function AuthRoleSelect() {
                 </ul>
               </CardContent>
               <CardFooter>
-                 <Button className="w-full group-hover:bg-primary/90">
+                 <Button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                     Join as Agent
                     <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                  </Button>
